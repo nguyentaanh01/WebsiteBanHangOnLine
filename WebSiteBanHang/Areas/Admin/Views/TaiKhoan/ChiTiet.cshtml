@@ -1,0 +1,123 @@
+﻿@model WebSiteBanHang.Models.TaiKhoan
+
+@{
+    ViewBag.Title = "ChiTiet";
+    Layout = "~/Areas/Admin/Views/Shared/Layout-admin.cshtml";
+    var listChucNang = new WebSiteBanHang.Models.BanHangDBEntities().ChucNangs.ToList();
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div>
+            <p style="padding: 10px; font-size: 23px; color: #438EB9">
+                Thông tin tài khoản: @Model.UserName
+                <a class="btn btn-info btn-xs pull-right">Cập Nhật</a>
+            </p>
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+
+                    <td>
+                        @Html.DisplayFor(model => model.UserName)
+                    </td>
+
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PassWord)
+                    </th>
+
+                    <td>
+                        @Html.DisplayFor(model => model.PassWord)
+                    </td>
+
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TenHienThi)
+                    </th>
+
+                    <td>
+                        @Html.DisplayFor(model => model.TenHienThi)
+                    </td>
+
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SoDienThoai)
+                    </th>
+
+                    <td>
+                        @Html.DisplayFor(model => model.SoDienThoai)
+                    </td>
+
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Active)
+                    </th>
+
+                    <td>
+                        @Html.DisplayFor(model => model.Active)
+                    </td>
+
+            </table>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <p style="text-align: center; padding: 10px 0px; font-size: 23px; color: #438EB9">Phân Quyền</p>
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td>
+                            Mã chức năng
+                        </td>
+                        <td>
+                            Tên chức năng
+                        </td>
+                        <td>
+                            Phân quyền
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in listChucNang)
+                    {
+                        var phanQuyen = new WebSiteBanHang.Models.BanHangDBEntities().PhanQuyens.Count(m => m.IDTaiKhoan == Model.ID & m.MaChucNang == item.MaChucNang);
+                        <tr>
+                            <td>@item.MaChucNang</td>
+                            <td>@item.TenChucNang</td>
+                            <td>
+                                <input type="checkbox" @Html.Raw(phanQuyen > 0?"checked" : "") onchange="LuuPhanQuyen('@Model.ID', '@item.MaChucNang')"/>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section script{
+    <script>
+        function LuuPhanQuyen(idTaiKhoan, maChucNang) {
+            //location.href = "/Admin/TaiKhoan/PhanQuyen?idTaiKhoan=" + idTaiKhoan + "&maChucNang=" + maChucNang;
+            var jsonData = {
+                idTaiKhoan: idTaiKhoan,
+                maChucNang: maChucNang
+            }
+            $.ajax({
+                url: '/Admin/TaiKhoan/PhanQuyenJson',
+                type: 'post',
+                data: jsonData,
+                dataType: 'JSON',
+                success: function (data) {
+                    alert(data.status);
+                }
+            })
+        }
+    </script>    
+}
+
+
+
+

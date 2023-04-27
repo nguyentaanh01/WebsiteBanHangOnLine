@@ -1,0 +1,90 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.SanPhamDatHang>
+
+@{
+    ViewBag.Title = "Danh sách sản phẩm đặt hàng";
+    Layout = "~/Areas/Admin/Views/Shared/Layout-admin.cshtml";
+    int i = 0;
+}
+
+<div class="row" style="padding:15px; font-size:18px">
+    <div class="col-md-12">
+        <h3>
+            <span style="color: #438EB9">Danh Sách Sản Phẩm Đặt Hàng</span>
+            <!--<a class="btn btn-sm btn-info pull-right" href="/Admin/Home/ThemMoi">Thêm mới</a>-->
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-primary btn-sm pull-right" onclick="LoadForm()">
+                Thêm mới
+            </button>
+        </h3>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th style="width:40px">
+                    STT
+                </th>
+                <th style="width:200px">
+                    ID Đơn Hàng
+                </th>
+                <th style="width:300px">
+                    Tên Sản Phẩm
+                </th>
+                <th style="width:150px">
+                    Số Lượng
+                </th>
+                
+                <th style="width:100px"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                var sanpham = new WebSiteBanHang.Models.mapSanPham().ChiTiet(item.IDSanPham);
+                var donhang = new WebSiteBanHang.Models.mapDonHang().ChiTiet(item.IDDonHang);
+                <tr>
+                    <td>
+                        @(++i)
+                    </td>
+                    <td>
+                        @{
+                            if (donhang != null)
+                            {
+                                @donhang.TenDonHang
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{ 
+                            if(sanpham != null)
+                            {
+                                @sanpham.TenSanPham
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SoLuong)
+                    </td>
+                    <td>
+                        <a href="/Admin/SanPhamDatHang/CapNhat?idSanPhamDatHang=@item.IDSanPhamDatHang"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="#" onclick="if (confirm('Ban Co Muon Xoa Khong') == true) { location.href = '/Admin/SanPhamDatHang/Xoa?idSanPhamDatHang=@item.IDSanPhamDatHang'}" style="color:red; margin-left:5px"><i class="fa-solid fa-delete-left"></i></a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+<div id="formBox">
+
+</div>
+@section script{
+    <script>
+        function LoadForm() {
+            $("#formBox").load("/Admin/SanPhamDatHang/ThemMoi", function () {
+                $("#formThemMoiSanPhamDatHang").modal("show");
+            })
+        }
+    </script>
+}
+

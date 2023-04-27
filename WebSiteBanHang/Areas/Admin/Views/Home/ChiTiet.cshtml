@@ -1,0 +1,142 @@
+﻿@model WebSiteBanHang.Models.SanPham
+
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/Layout-admin.cshtml";
+}
+
+<div class="row">
+    <h2 style="text-align:center">Chi Tiết Sản Phẩm</h2>
+    <hr />
+    <div class="col-md-2">
+        <span style="font-size:20px; font-weight:bold">Hình Ảnh</span>
+
+        <hr />
+        <img src="@Model.HinhAnh" style="width:100%" />
+        <a href="/Admin/Home/CapNhatHinhAnh?idSanPham=@Model.IDSanPham" class="btn btn-xs btn-success pull-left">Upload Hình Ảnh</a>
+        <a href="/Admin/Home/CapNhatHinhAnhCKFinder?idSanPham=@Model.IDSanPham" class="btn btn-xs btn-info pull-left">Upload Hình Ảnh Bằng CKFinder</a>
+
+    </div>
+    <div class="col-md-6">
+        <span style="font-size:20px; font-weight:bold">Thông Tin</span>
+        <hr />
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover table-bordered" style="font-size:17px">
+                    <tr>
+                        <td style="font-weight:600">
+                            Tên sản phẩm
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => model.TenSanPham)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight:600">
+                            Giá bán
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => model.GiaBan)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight: 600">
+                            Ngày nhập
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => model.NgayNhap)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight: 600">
+                            Còn hàng
+                        </td>
+
+                        <td>
+                            @Html.Raw(Model.ConHang == true ? "Còn hàng" : "Hết hàng")
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight: 600">
+                            Số lượng
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => model.SoLuong)
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td style="font-weight: 600">
+                            Nhà cung cấp
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => model.NhaCungCap.TenNhaCungCap)
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="col-12"style="font-size:17px">
+                <p style="font-size:20px; font-weight:bold">Bài Viết</p>
+                <hr />
+                @Html.Raw(Model.BaiViet)
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <span style="font-size:20px; font-weight:bold">Phân Loại Sản Phẩm</span>
+        <a href="/Admin/Home/ThemMoiPhanLoai?idSanPham=@Model.IDSanPham" class="btn btn-xs btn-info pull-right">Thêm mới</a>
+        <hr />
+        <table class="table table-bordered table-hover" style="font-size:17px">
+            <tr>
+                <th>
+                    Loại sản phẩm
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+                <th>
+                    Ngày hiệu lực
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in new WebSiteBanHang.Models.mapSanPham().DanhSachPhanLoaiSanPham(Model.IDSanPham))
+            {
+                var loaiSP = new WebSiteBanHang.Models.mapLoaiSanPham().ChiTiet(item.IDLoaiSanPham);
+                <tr>
+                    <td>
+                        @if (loaiSP != null)
+                        {
+                            @loaiSP.TenLoai
+                        }
+                    </td>
+                    <td>
+                        @item.GhiChu
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyy}", item.NgayHieuLuc)
+                    </td>
+                    <td>
+                        <a href="/Admin/Home/CapNhatPhanLoai?idPhanLoai=@item.IDPhanLoai"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="#" onclick="if (confirm('Ban Co Muon Xoa Khong') == true) { location.href = '/Admin/Home/XoaPhanLoai?idPhanLoai=@item.IDPhanLoai&&idSanPham=@Model.IDSanPham' }" style="color:red; margin-left:5px"><i class="fa-solid fa-delete-left"></i></a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+
+

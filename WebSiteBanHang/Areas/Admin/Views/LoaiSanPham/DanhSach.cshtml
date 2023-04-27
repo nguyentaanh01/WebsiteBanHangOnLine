@@ -1,0 +1,78 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.LoaiSanPham>
+
+@{
+    ViewBag.Title = "DanhSach";
+    Layout = "~/Areas/Admin/Views/Shared/Layout-admin.cshtml";
+    int i = 0;
+}
+
+<div class="row" style="padding:15px; font-size:18px">
+    <div class="col-md-12">
+        <h3>
+            <span style="color: #438EB9">Danh Sách Loại Sản Phẩm</span>
+            <!--<a class="btn btn-sm btn-info pull-right" href="/Admin/Home/ThemMoi">Thêm mới</a>-->
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-primary btn-sm pull-right" onclick="LoadForm()">
+                Thêm mới
+            </button>
+        </h3>
+    </div>
+
+    <div class="col-md-12" style="margin-bottom:10px">
+        <form class="form-group">
+            <input style="width: 30%" type="text" name="tenLoaiSanPham" value="@ViewBag.tenLoaiSanPham" class="form-control pull-left" placeholder="nhập tên loại sản phẩm" />
+            <button class="btn btn-sm btn-info pull-left">Tìm kiếm</button>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th style="width:50px">
+                    STT
+                </th>
+                <th>
+                    Tên Loại
+                </th>
+                <th>
+                    Xuất Xứ
+                </th>
+                <th style="width:100px"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @(++i)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TenLoai)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.XuatXu)
+                    </td>
+                    <td>
+                        <a href="/Admin/LoaiSanPham/CapNhat?idLoaiSanPham=@item.IDLoaiSanPham"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="#" onclick="if (confirm('Ban Co Muon Xoa Khong') == true) { location.href = '/Admin/LoaiSanPham/Xoa?idLoaiSanPham=@item.IDLoaiSanPham'}" style="color:red; margin-left:5px"><i class="fa-solid fa-delete-left"></i></a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+<div id="formBox">
+
+</div>
+@section script{
+    <script>
+        function LoadForm() {
+            $("#formBox").load("/Admin/LoaiSanPham/ThemMoi", function () {
+                $("#formThemMoiLoaiSanPham").modal("show");
+            })
+        }
+    </script>
+}
+

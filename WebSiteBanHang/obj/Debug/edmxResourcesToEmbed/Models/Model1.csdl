@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BanHangDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="BanHangDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ChucNangs" EntityType="BanHangDBModel.ChucNang" />
+    <EntitySet Name="DonHangs" EntityType="BanHangDBModel.DonHang" />
+    <EntitySet Name="KhachHangs" EntityType="BanHangDBModel.KhachHang" />
+    <EntitySet Name="LoaiSanPhams" EntityType="BanHangDBModel.LoaiSanPham" />
+    <EntitySet Name="NhaCungCaps" EntityType="BanHangDBModel.NhaCungCap" />
+    <EntitySet Name="PhanLoaiSanPhams" EntityType="BanHangDBModel.PhanLoaiSanPham" />
+    <EntitySet Name="PhanQuyens" EntityType="BanHangDBModel.PhanQuyen" />
+    <EntitySet Name="SanPhams" EntityType="BanHangDBModel.SanPham" />
+    <EntitySet Name="SanPhamDatHangs" EntityType="BanHangDBModel.SanPhamDatHang" />
+    <EntitySet Name="sysdiagrams" EntityType="BanHangDBModel.sysdiagram" />
+    <EntitySet Name="TaiKhoans" EntityType="BanHangDBModel.TaiKhoan" />
+    <AssociationSet Name="FK_PhanQuyen_ChucNang" Association="BanHangDBModel.FK_PhanQuyen_ChucNang">
+      <End Role="ChucNang" EntitySet="ChucNangs" />
+      <End Role="PhanQuyen" EntitySet="PhanQuyens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DonHang_KhachHang" Association="BanHangDBModel.FK_DonHang_KhachHang">
+      <End Role="KhachHang" EntitySet="KhachHangs" />
+      <End Role="DonHang" EntitySet="DonHangs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SanPhamDatHang_DonHang" Association="BanHangDBModel.FK_SanPhamDatHang_DonHang">
+      <End Role="DonHang" EntitySet="DonHangs" />
+      <End Role="SanPhamDatHang" EntitySet="SanPhamDatHangs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhanLoaiSanPham_LoaiSanPham" Association="BanHangDBModel.FK_PhanLoaiSanPham_LoaiSanPham">
+      <End Role="LoaiSanPham" EntitySet="LoaiSanPhams" />
+      <End Role="PhanLoaiSanPham" EntitySet="PhanLoaiSanPhams" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SanPham_NhaCungCap" Association="BanHangDBModel.FK_SanPham_NhaCungCap">
+      <End Role="NhaCungCap" EntitySet="NhaCungCaps" />
+      <End Role="SanPham" EntitySet="SanPhams" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhanLoaiSanPham_SanPham" Association="BanHangDBModel.FK_PhanLoaiSanPham_SanPham">
+      <End Role="SanPham" EntitySet="SanPhams" />
+      <End Role="PhanLoaiSanPham" EntitySet="PhanLoaiSanPhams" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhanQuyen_TaiKhoan" Association="BanHangDBModel.FK_PhanQuyen_TaiKhoan">
+      <End Role="TaiKhoan" EntitySet="TaiKhoans" />
+      <End Role="PhanQuyen" EntitySet="PhanQuyens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SanPhamDatHang_SanPham" Association="BanHangDBModel.FK_SanPhamDatHang_SanPham">
+      <End Role="SanPham" EntitySet="SanPhams" />
+      <End Role="SanPhamDatHang" EntitySet="SanPhamDatHangs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ChucNang">
+    <Key>
+      <PropertyRef Name="MaChucNang" />
+    </Key>
+    <Property Name="MaChucNang" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="NhomChucNang" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="TenChucNang" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PhanQuyens" Relationship="BanHangDBModel.FK_PhanQuyen_ChucNang" FromRole="ChucNang" ToRole="PhanQuyen" />
+  </EntityType>
+  <EntityType Name="DonHang">
+    <Key>
+      <PropertyRef Name="IDDonHang" />
+    </Key>
+    <Property Name="IDDonHang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenDonHang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GhiChu" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TrangThai" Type="Boolean" />
+    <Property Name="NgayOder" Type="DateTime" Precision="0" />
+    <Property Name="IDKhachHang" Type="Int32" />
+    <NavigationProperty Name="KhachHang" Relationship="BanHangDBModel.FK_DonHang_KhachHang" FromRole="DonHang" ToRole="KhachHang" />
+    <NavigationProperty Name="SanPhamDatHangs" Relationship="BanHangDBModel.FK_SanPhamDatHang_DonHang" FromRole="DonHang" ToRole="SanPhamDatHang" />
+  </EntityType>
+  <EntityType Name="KhachHang">
+    <Key>
+      <PropertyRef Name="IDKhachHang" />
+    </Key>
+    <Property Name="IDKhachHang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenKhachhang" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DiaChi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SoDienThoai" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MaGiamGia" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Gmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="DonHangs" Relationship="BanHangDBModel.FK_DonHang_KhachHang" FromRole="KhachHang" ToRole="DonHang" />
+  </EntityType>
+  <EntityType Name="LoaiSanPham">
+    <Key>
+      <PropertyRef Name="IDLoaiSanPham" />
+    </Key>
+    <Property Name="IDLoaiSanPham" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenLoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="XuatXu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PhanLoaiSanPhams" Relationship="BanHangDBModel.FK_PhanLoaiSanPham_LoaiSanPham" FromRole="LoaiSanPham" ToRole="PhanLoaiSanPham" />
+  </EntityType>
+  <EntityType Name="NhaCungCap">
+    <Key>
+      <PropertyRef Name="IDNhaCungCap" />
+    </Key>
+    <Property Name="IDNhaCungCap" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenNhaCungCap" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DiaChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="SoDienThoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Gmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="WebSite" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MaBuuDien" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="ThanhPho" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="QuocGia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SanPhams" Relationship="BanHangDBModel.FK_SanPham_NhaCungCap" FromRole="NhaCungCap" ToRole="SanPham" />
+  </EntityType>
+  <EntityType Name="PhanLoaiSanPham">
+    <Key>
+      <PropertyRef Name="IDPhanLoai" />
+    </Key>
+    <Property Name="IDPhanLoai" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDSanPham" Type="Int32" />
+    <Property Name="IDLoaiSanPham" Type="Int32" />
+    <Property Name="GhiChu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NgayHieuLuc" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="LoaiSanPham" Relationship="BanHangDBModel.FK_PhanLoaiSanPham_LoaiSanPham" FromRole="PhanLoaiSanPham" ToRole="LoaiSanPham" />
+    <NavigationProperty Name="SanPham" Relationship="BanHangDBModel.FK_PhanLoaiSanPham_SanPham" FromRole="PhanLoaiSanPham" ToRole="SanPham" />
+  </EntityType>
+  <EntityType Name="PhanQuyen">
+    <Key>
+      <PropertyRef Name="IDTaiKhoan" />
+      <PropertyRef Name="MaChucNang" />
+    </Key>
+    <Property Name="IDTaiKhoan" Type="Int32" Nullable="false" />
+    <Property Name="MaChucNang" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="GhiChu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ChucNang" Relationship="BanHangDBModel.FK_PhanQuyen_ChucNang" FromRole="PhanQuyen" ToRole="ChucNang" />
+    <NavigationProperty Name="TaiKhoan" Relationship="BanHangDBModel.FK_PhanQuyen_TaiKhoan" FromRole="PhanQuyen" ToRole="TaiKhoan" />
+  </EntityType>
+  <EntityType Name="SanPham">
+    <Key>
+      <PropertyRef Name="IDSanPham" />
+    </Key>
+    <Property Name="IDSanPham" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenSanPham" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="GiaBan" Type="Double" />
+    <Property Name="NgayNhap" Type="DateTime" Precision="3" />
+    <Property Name="ConHang" Type="Boolean" />
+    <Property Name="SoLuong" Type="Double" />
+    <Property Name="BaiViet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IDNhaCungCap" Type="Int32" />
+    <Property Name="HinhAnh" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="NhaCungCap" Relationship="BanHangDBModel.FK_SanPham_NhaCungCap" FromRole="SanPham" ToRole="NhaCungCap" />
+    <NavigationProperty Name="PhanLoaiSanPhams" Relationship="BanHangDBModel.FK_PhanLoaiSanPham_SanPham" FromRole="SanPham" ToRole="PhanLoaiSanPham" />
+    <NavigationProperty Name="SanPhamDatHangs" Relationship="BanHangDBModel.FK_SanPhamDatHang_SanPham" FromRole="SanPham" ToRole="SanPhamDatHang" />
+  </EntityType>
+  <EntityType Name="SanPhamDatHang">
+    <Key>
+      <PropertyRef Name="IDSanPhamDatHang" />
+    </Key>
+    <Property Name="IDSanPhamDatHang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDDonHang" Type="Int32" />
+    <Property Name="IDSanPham" Type="Int32" />
+    <Property Name="SoLuong" Type="Int32" />
+    <NavigationProperty Name="DonHang" Relationship="BanHangDBModel.FK_SanPhamDatHang_DonHang" FromRole="SanPhamDatHang" ToRole="DonHang" />
+    <NavigationProperty Name="SanPham" Relationship="BanHangDBModel.FK_SanPhamDatHang_SanPham" FromRole="SanPhamDatHang" ToRole="SanPham" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TaiKhoan">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PassWord" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TenHienThi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="SoDienThoai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Active" Type="Boolean" />
+    <NavigationProperty Name="PhanQuyens" Relationship="BanHangDBModel.FK_PhanQuyen_TaiKhoan" FromRole="TaiKhoan" ToRole="PhanQuyen" />
+  </EntityType>
+  <Association Name="FK_PhanQuyen_ChucNang">
+    <End Type="BanHangDBModel.ChucNang" Role="ChucNang" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="BanHangDBModel.PhanQuyen" Role="PhanQuyen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChucNang">
+        <PropertyRef Name="MaChucNang" />
+      </Principal>
+      <Dependent Role="PhanQuyen">
+        <PropertyRef Name="MaChucNang" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DonHang_KhachHang">
+    <End Type="BanHangDBModel.KhachHang" Role="KhachHang" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="BanHangDBModel.DonHang" Role="DonHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KhachHang">
+        <PropertyRef Name="IDKhachHang" />
+      </Principal>
+      <Dependent Role="DonHang">
+        <PropertyRef Name="IDKhachHang" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SanPhamDatHang_DonHang">
+    <End Type="BanHangDBModel.DonHang" Role="DonHang" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="BanHangDBModel.SanPhamDatHang" Role="SanPhamDatHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DonHang">
+        <PropertyRef Name="IDDonHang" />
+      </Principal>
+      <Dependent Role="SanPhamDatHang">
+        <PropertyRef Name="IDDonHang" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhanLoaiSanPham_LoaiSanPham">
+    <End Type="BanHangDBModel.LoaiSanPham" Role="LoaiSanPham" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="BanHangDBModel.PhanLoaiSanPham" Role="PhanLoaiSanPham" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoaiSanPham">
+        <PropertyRef Name="IDLoaiSanPham" />
+      </Principal>
+      <Dependent Role="PhanLoaiSanPham">
+        <PropertyRef Name="IDLoaiSanPham" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SanPham_NhaCungCap">
+    <End Type="BanHangDBModel.NhaCungCap" Role="NhaCungCap" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="BanHangDBModel.SanPham" Role="SanPham" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhaCungCap">
+        <PropertyRef Name="IDNhaCungCap" />
+      </Principal>
+      <Dependent Role="SanPham">
+        <PropertyRef Name="IDNhaCungCap" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhanLoaiSanPham_SanPham">
+    <End Type="BanHangDBModel.SanPham" Role="SanPham" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="BanHangDBModel.PhanLoaiSanPham" Role="PhanLoaiSanPham" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SanPham">
+        <PropertyRef Name="IDSanPham" />
+      </Principal>
+      <Dependent Role="PhanLoaiSanPham">
+        <PropertyRef Name="IDSanPham" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhanQuyen_TaiKhoan">
+    <End Type="BanHangDBModel.TaiKhoan" Role="TaiKhoan" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="BanHangDBModel.PhanQuyen" Role="PhanQuyen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaiKhoan">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PhanQuyen">
+        <PropertyRef Name="IDTaiKhoan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SanPhamDatHang_SanPham">
+    <End Type="BanHangDBModel.SanPham" Role="SanPham" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="BanHangDBModel.SanPhamDatHang" Role="SanPhamDatHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SanPham">
+        <PropertyRef Name="IDSanPham" />
+      </Principal>
+      <Dependent Role="SanPhamDatHang">
+        <PropertyRef Name="IDSanPham" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

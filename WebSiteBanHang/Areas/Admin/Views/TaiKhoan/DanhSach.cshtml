@@ -1,0 +1,98 @@
+﻿
+@model IEnumerable<WebSiteBanHang.Models.TaiKhoan>
+
+@{
+    ViewBag.Title = "Danh Sách Tài Khoản";
+    Layout = "~/Areas/Admin/Views/Shared/Layout-admin.cshtml";
+    int i = 0;
+}
+
+<div class="row" style="padding:15px; font-size:18px">
+    <div class="col-md-12">
+        <h3>
+            <span style="color: #438EB9">Danh Sách Tài Khoản</span>
+            <!--<a class="btn btn-sm btn-info pull-right" href="/Admin/Home/ThemMoi">Thêm mới</a>-->
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-primary btn-sm pull-right" onclick="LoadForm()">
+                Thêm mới
+            </button>
+        </h3>
+    </div>
+
+    <div class="col-md-12" style="margin-bottom:10px">
+        <form class="form-group">
+            <input style="width: 30%" type="text" name="tenHienThi" value="@ViewBag.tenHienThi" class="form-control pull-left" placeholder="nhập tên tài khoản" />
+            <button class="btn btn-sm btn-info pull-left">Tìm kiếm</button>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th style="width:50px">
+                    STT
+                </th>
+                <th>
+                    UserName
+                </th>
+                <th>
+                    Password
+                </th>
+                <th>
+                    Tên Hiển Thị
+                </th>
+                <th>
+                    Số Điện Thoại
+                </th>
+                <th>
+                    Active
+                </th>
+                <th style="width:100px"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @(++i)
+                    </td>
+                    <td>
+                        <a href="/Admin/TaiKhoan/ChiTiet?idTaiKhoan=@item.ID">@item.UserName</a>
+                    </td>
+                    <td>
+                        @item.PassWord
+                    </td>
+                    <td>
+                        @item.TenHienThi
+                    </td>
+                    <td>
+                        @item.SoDienThoai
+                    </td>
+                    <td>
+                        @Html.Raw(item.Active == true ? "Hoạt Động" : "Khóa")
+                    </td>
+                    <td>
+                        <a href="/Admin/TaiKhoan/CapNhat?id=@item.ID"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="#" onclick="if (confirm('Ban Co Muon Xoa Khong') == true) { location.href = '/Admin/TaiKhoan/Xoa?id=@item.ID' }" style="color:red; margin-left:5px"><i class="fa-solid fa-delete-left"></i></a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+<div id="formBox">
+
+</div>
+@section script{
+    <script>
+        function LoadForm() {
+            $("#formBox").load("/Admin/TaiKhoan/ThemMoi", function () {
+                $("#formThemMoiTaiKhoan").modal("show");
+            })
+        }
+    </script>
+}
+
+

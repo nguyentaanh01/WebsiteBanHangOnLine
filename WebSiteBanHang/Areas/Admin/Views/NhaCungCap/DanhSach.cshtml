@@ -1,0 +1,104 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.NhaCungCap>
+
+@{
+    ViewBag.Title = "Danh Sách Nhà Cung Cấp";
+    Layout = "~/Areas/Admin/Views/Shared/Layout-admin.cshtml";
+    int i = 0;
+}
+
+<div class="row" style="padding:15px; font-size:18px">
+    <div class="col-md-12">
+        <h3>
+            <span style="color: #438EB9">Danh Sách Loại Sản Phẩm</span>
+            <!--<a class="btn btn-sm btn-info pull-right" href="/Admin/Home/ThemMoi">Thêm mới</a>-->
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-primary btn-sm pull-right" onclick="LoadForm()">
+                Thêm mới
+            </button>
+        </h3>
+    </div>
+
+    <div class="col-md-12" style="margin-bottom:10px">
+        <form class="form-group">
+            <input style="width: 30%" type="text" name="tenNhaCungCap" value="@ViewBag.tenNhaCungCap" class="form-control pull-left" placeholder="nhập tên loại sản phẩm" />
+            <button class="btn btn-sm btn-info pull-left">Tìm kiếm</button>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th style="width:40px">
+                    STT
+                </th>
+                <th style="width:200px">
+                    Tên Nhà Cung Cấp
+                </th>
+                <th style="width:300px">
+                    Địa Chỉ
+                </th>
+                <th style="width:150px">
+                    Số Điện Thoại
+                </th>
+                <th>
+                    Website
+                </th>
+                <th style="width:150px">
+                    Mã Bưu Điện
+                </th>
+                <th style="width:150px">
+                    Thành Phố
+                </th>
+                <th style="width:100px"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @(++i)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TenNhaCungCap)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiaChi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SoDienThoai)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WebSite)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaBuuDien)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ThanhPho)
+                    </td>
+                    <td>
+                        <a href="/Admin/NhaCungCap/CapNhat?idNhaCungCap=@item.IDNhaCungCap"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="#" onclick="if (confirm('Ban Co Muon Xoa Khong') == true) { location.href = '/Admin/NhaCungCap/Xoa?idNhaCungCap=@item.IDNhaCungCap'}" style="color:red; margin-left:5px"><i class="fa-solid fa-delete-left"></i></a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+<div id="formBox">
+
+</div>
+@section script{
+    <script>
+        function LoadForm() {
+            $("#formBox").load("/Admin/NhaCungCap/ThemMoi", function () {
+                $("#formThemMoiNhaCungCap").modal("show");
+            })
+        }
+    </script>
+}
+
+
+

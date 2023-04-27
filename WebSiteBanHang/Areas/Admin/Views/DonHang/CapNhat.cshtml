@@ -1,0 +1,76 @@
+﻿@model WebSiteBanHang.Models.DonHang
+
+@{
+    ViewBag.Title = "Cập nhật đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/Layout-admin.cshtml";
+}
+
+<div class="row" style="margin-left:200px; margin-right:200px">
+    <div class="col-md-12">
+        <h2 style="color: #438EB9">Cập Nhật Đơn Hàng</h2>
+    </div>
+    <div class="col-md-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <input type="hidden" name="IDDonHang" value="@Model.IDDonHang" />
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Tên Đơn Hàng</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="TenDonHang" value="@Model.TenDonHang"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Ghi Chú</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="GhiChu" value="@Model.GhiChu" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Trạng Thái</label>
+                    <div class="col-md-10">
+                        <select name="TrangThai" class="form-control">
+                            <option value="0">False</option>
+                            <option value="1">True</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Ngày Oder</label>
+                    <div class="col-md-10">
+                        <input type="date" class="form-control" name="NgayOder" value="@string.Format("{0:dd-MM-yyyy}", Model.NgayOder)" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Khách Hàng</label>
+                    <div class="col-md-10">
+                        <select name="IDKhachHang" class="form-control">
+                            @foreach (var item in new WebSiteBanHang.Models.mapKhachHang().DanhSach())
+                            {
+                                <option value="@item.IDKhachHang" @Html.Raw(item.IDKhachHang == Model.IDKhachHang ? "selected" : "")>@item.TenKhachhang</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Update" class="btn btn-info" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-12">
+        <div style="width: 180px; height: 30px; background-color: #6FB3E0; text-align: center; padding-top: 3px">
+            <a href="/Admin/DonHang/DanhSach" style="text-decoration:none; color:white; font-size:15px"> Quay Lại Trang Danh Sách</a>
+        </div>
+    </div>
+</div>
+

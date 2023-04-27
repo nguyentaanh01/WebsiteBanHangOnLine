@@ -1,0 +1,117 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.DonHang>
+
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/Layout-admin.cshtml";
+    int i = 0;
+}
+
+<div class="row" style="padding:15px; font-size:18px">
+    <div class="col-md-12">
+        <h3>
+            <span style="color: #438EB9">Danh Sách Đơn Hàng</span>
+            <!--<a class="btn btn-sm btn-info pull-right" href="/Admin/Home/ThemMoi">Thêm mới</a>-->
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-primary btn-sm pull-right" onclick="LoadForm()">
+                Thêm mới
+            </button>
+        </h3>
+    </div>
+
+    <div class="col-md-12" style="margin-bottom:10px">
+        <form class="form-group">
+            <input style="width: 30%" type="text" name="tenDonHang" value="@ViewBag.tenDonHang" class="form-control pull-left" placeholder="nhập tên khách hàng" />
+            <button class="btn btn-sm btn-info pull-left">Tìm kiếm</button>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th style="width:50px">
+                    STT
+                </th>
+                <th>
+                    Tên Đơn Hàng
+                </th>
+                <th>
+                    Ghi Chú
+                </th>
+                <th>
+                    Trạng Thái
+                </th>
+                <th>
+                    Ngày Oder
+                </th>
+                <th>
+                    Khách Hàng
+                </th>
+                <th>
+                    Số Điện Thoại
+                </th>
+                <th style="width:100px"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                var khachHang = new WebSiteBanHang.Models.mapKhachHang().ChiTiet(item.IDKhachHang);
+                <tr>
+                    <td>
+                        @(++i)
+                    </td>
+                    <td>
+                        @item.TenDonHang
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GhiChu)
+                    </td>
+                    <td>
+                        @Html.Raw(item.TrangThai == true ? "Đã thanh toán" : "Chưa thanh toán")
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy}", item.NgayOder)
+                    </td>
+                    <td>
+                        @{
+                            if (khachHang != null)
+                            {
+                                @khachHang.TenKhachhang
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if (khachHang != null)
+                            {
+                                @khachHang.SoDienThoai
+                            }
+                        }
+                    </td>
+
+                    <td>
+
+                        <a href="/Admin/DonHang/CapNhat?idDonHang=@item.IDDonHang"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="#" onclick="if (confirm('Ban Co Muon Xoa Khong') == true) { location.href = '/Admin/DonHang/Xoa?idDonHang=@item.IDDonHang'}" style="color:red; margin-left:5px"><i class="fa-solid fa-delete-left"></i></a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+<div id="formBox">
+
+</div>
+@section script{
+    <script>
+        function LoadForm() {
+            $("#formBox").load("/Admin/DonHang/ThemMoi", function () {
+                $("#formThemMoiDonHang").modal("show");
+            })
+        }
+    </script>
+}
+
+
+
